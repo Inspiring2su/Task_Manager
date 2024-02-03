@@ -13,9 +13,16 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('project_id');
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
+            $table->date('deadline')->nullable();
+            $table->enum('status', ['pending', 'completed'])->default('pending');
             $table->timestamps();
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
         });
     }
 

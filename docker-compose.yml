@@ -44,8 +44,8 @@ services:
             - mysql
         image: phpmyadmin/phpmyadmin
         environment:
-            - PMA-HOST=mysql
-            - PMA-PORT=3306
+            - PMA_HOST=mysql
+            - PMA_PORT=3306
         networks:
             - sail
         ports:
