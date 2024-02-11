@@ -19,7 +19,6 @@
             <div class="col-auto">
                 <input type="date" name="due_date" value="{{ request('due_date') }}" class="form-control">
             </div>
-
             <div class="col-auto">
                 <select name="sort_by" class="form-select">
                     <option value="name" {{ request('sort_by') == 'name' ? 'selected' : '' }}>Task Name</option>
@@ -33,9 +32,11 @@
                     <option value="desc" {{ request('sort_order') == 'desc' ? 'selected' : '' }}>Descending</option>
                 </select>
             </div>
-
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Filter</button>
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Sort</button>
             </div>
         </div>
     </form>
@@ -45,6 +46,7 @@
         <thead>
             <tr>
                 <th>Task Name</th>
+                <th>Project Id</th>
                 <th>Status</th>
                 <th>Due Date</th>
                 <th>Actions</th>
@@ -54,9 +56,11 @@
             @foreach ($tasks as $task)
                 <tr>
                     <td>{{ $task->name }}</td>
+                    <td>{{ $task->project_id }}</td>
                     <td>{{ $task->status }}</td>
                     <td>{{ $task->deadline }}</td>
                     <td>
+                    <a href="{{ route('tasks.show', $task->id) }}" class="btn btn-primary btn-sm" class="d-inline" >View</a>
                         <a href="{{ route('tasks.edit', $task->id) }}" class="btn btn-primary btn-sm">Edit</a>
                         <form action="{{ route('tasks.destroy', $task->id) }}" method="POST" class="d-inline">
                             @csrf

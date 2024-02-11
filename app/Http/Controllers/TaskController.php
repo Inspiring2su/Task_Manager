@@ -11,29 +11,12 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Task::query();
-    
-        // Filter by status
-        if ($request->has('status')) {
-            $query->where('status', $request->input('status'));
-        }
-    
-        // Filter by due date
-        if ($request->has('due_date')) {
-            $query->whereDate('deadline', $request->input('due_date'));
-        }
-    
-        // Sorting
-        if ($request->has('sort_by')) {
-            $sortBy = $request->input('sort_by');
-            $sortOrder = $request->input('sort_order', 'asc');
-            
-            if (in_array($sortBy, ['deadline', 'name'])) {
-                $query->orderBy($sortBy, $sortOrder);
-            }
-        }
-    
-        $tasks = $query->get();
+        $tasks = Task::query()
+            ->filterByStatus($request->input('status'))
+            ->filterByDueDate($request->input('due_date'))
+            ->sortByField($request->input('sort_by'), $request->input('sort_order', 'asc'))
+            ->get();
+
         return view('tasks.index', compact('tasks'));
     }
     
@@ -42,7 +25,7 @@ class TaskController extends Controller
         $users = User::all();
         $projects = Project::all();
         return view('tasks.create', compact('users', 'projects'));
-    }
+    } 
     
     public function store(Request $request)
     {
@@ -65,12 +48,12 @@ class TaskController extends Controller
         return view('tasks.show', compact('task'));
     }
     
-    public function edit(Task $task)
+     public function edit(Task $task)
     {
         $users = User::all();
         $projects = Project::all();
         return view('tasks.edit', compact('task', 'users', 'projects'));
-    }
+    } 
     
     public function update(Request $request, Task $task)
     {

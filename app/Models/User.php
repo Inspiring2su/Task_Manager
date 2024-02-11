@@ -23,10 +23,7 @@ class User extends Authenticatable
         'password',
         'role',
     ];
-    public function roles()
-{
-    return $this->belongsToMany(Role::class);
-}
+
 
 
     /**
