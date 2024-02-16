@@ -19,6 +19,7 @@ class TaskTest extends TestCase
 
         $this->assertDatabaseHas('tasks', ['id' => $task->id]);
     }
+
     /** @test */
     public function a_task_can_be_deleted()
     {

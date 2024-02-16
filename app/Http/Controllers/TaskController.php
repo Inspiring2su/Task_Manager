@@ -16,7 +16,16 @@ class TaskController extends Controller
             ->filterByDueDate($request->input('due_date'))
             ->sortByField($request->input('sort_by'), $request->input('sort_order', 'asc'))
             ->get();
+            $query = Task::with('user'); // Eager load the user relationship
 
+            // Check if a search term is provided
+            if ($request->has('search') && !empty($request->search)) {
+                $search = $request->search;
+                $query->whereHas('user', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            }
+            $tasks = $query->get();
         return view('tasks.index', compact('tasks'));
     }
     

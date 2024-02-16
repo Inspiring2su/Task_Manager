@@ -5,7 +5,7 @@
 <div class="container mt-4">
     <h1>Tasks List</h1>
 
-    {{-- Filtering form --}}
+
     <form method="GET" action="{{ route('tasks.index') }}" class="mb-4">
         <div class="row align-items-center">
             <div class="col-auto">
@@ -38,6 +38,13 @@
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Sort</button>
             </div>
+            <form action="{{ route('tasks.index') }}" method="GET">
+            <input type="text" name="search" placeholder="Search by user name" value="{{ request('search') }}">
+            <button type="submit">Search</button>
+            </form>
+            @foreach ($tasks as $task)
+            <div>{{ $task->name }} - Assigned to: {{ $task->user->name ?? 'N/A' }}</div>
+            @endforeach            
         </div>
     </form>
 
